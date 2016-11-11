@@ -30,7 +30,8 @@
                                     helpers: helpers
                                 }
                             };
-    internals.hbs.options   = {
+    const { hbs }           = internals;
+    hbs.options             = {
                                 ignorePartials: true,
                                 batch : [internals.paths.dev.hbs.partials],
                                 helpers : internals.hbs.helpers
@@ -72,7 +73,7 @@
     gulp.task('templates', () => {
 
         return gulp.src([internals.paths.dev.hbs.root+'/**/*.hbs', '!'+internals.paths.dev.hbs.partials+'/**/*.hbs'])
-               .pipe(handlebars(internals.web, internals.hbs.options))
+               .pipe(handlebars(internals.web, hbs.options))
                .pipe(rename(function(path) {
                    path.extname = '.html';
                }))
