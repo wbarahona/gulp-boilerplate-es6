@@ -6,61 +6,77 @@ module.exports = {
         return str.fn(this).toUpperCase();
     },
     if_eq: ( a, b, opts ) => {
-        if (a == b)
-            return opts.fn(this);
-        else
-            return opts.inverse(this);
-    },
-    if_neq: ( a, b, opts ) => {
-        if (a !== b)
-            return opts.fn(this);
-        else
-            return opts.inverse(this);
-    },
-    modulus: ( a, b, opts ) => {
-        if ((a+1) % b == 0)
-            return opts.fn(this);
-        else
-            return opts.inverse(this);
-    },
-    template: ( folder, template, context, opts ) => {
-        folder = folder.replace(/\//g, '_');
-        template = template.replace(/\//g, '_');
+        let result = null;
 
-        const f = handlebars.Handlebars.partials[folder+'/'+template];
-        if (!f) {
-            return "Partial not loaded";
+        if (a === b) {
+            result = opts.fn(this);
+        } else {
+            result = opts.inverse(this);
         }
 
-        return new handlebars.Handlebars.SafeString(f);
+        return result;
+    },
+    if_neq: ( a, b, opts ) => {
+        let result = null;
+
+        if (a !== b) {
+            result = opts.fn(this);
+        } else {
+            result = opts.inverse(this);
+        }
+
+        return result;
+    },
+    modulus: ( a, b, opts ) => {
+        let result = null;
+
+        if ((a + 1) % b === 0) {
+            result = opts.fn(this);
+        } else {
+            result = opts.inverse(this);
+        }
+
+        return result;
+    },
+    template: ( folder, template ) => {
+        const result = null;
+        const fldr = folder.replace(/\//g, '_');
+        const tpl = template.replace(/\//g, '_');
+
+        const f = handlebars.Handlebars.partials[`${ fldr }/${ tpl }`];
+
+        if (!f) {
+            result = 'Partial not loaded';
+        } else {
+            result = new handlebars.Handlebars.SafeString(f);
+        }
+
+        return result;
     },
     compare: ( v1, op, v2, options ) => {
         const c = {
-            eq: function (v1, v2) {
-                return v1 == v2;
+            eq: (v1, v2) => {
+                return v1 === v2;
             },
-            neq: function (v1, v2) {
-                return v1 != v2;
+            neq: (v1, v2) => {
+                return v1 !== v2;
             },
-            gt: function (v1, v2) {
+            gt: (v1, v2) => {
                 return v1 > v2;
             },
-            gte: function (v1, v2) {
+            gte: (v1, v2) => {
                 return v1 >= v2;
             },
-            lt: function (v1, v2) {
+            lt: (v1, v2) => {
                 return v1 < v2;
             },
-            lt: function (v1, v2) {
-                return v1 < v2;
-            },
-            lte: function (v1, v2) {
+            lte: (v1, v2) => {
                 return v1 <= v2;
             },
-            and: function (v1, v2) {
+            and: (v1, v2) => {
                 return v1 && v2;
             },
-            or: function (v1, v2) {
+            or: (v1, v2) => {
                 return v1 || v2;
             }
         };
@@ -68,6 +84,7 @@ module.exports = {
         if( Object.prototype.hasOwnProperty.call( c, op ) ) {
             return c[ op ].call( this, v1, v2 ) ? options.fn( this ) : options.inverse( this );
         }
+
         return options.inverse( this );
     }
 };
