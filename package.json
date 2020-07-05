@@ -42,7 +42,7 @@
     "gulp-sass": "^4.0.1",
     "gulp-uglify-es": "^1.0.1",
     "imagemin-pngquant": "^5.0.0",
-    "jquery": "^3.1.1",
+    "jquery": "^3.5.0",
     "pretty-hrtime": "^1.0.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^2.0.0",
